@@ -23,6 +23,9 @@ app.use(bodyParser.json());
 const server = http.Server(app);
 const io = socketIO(6970);
 
+// serve the frontend
+app.use(express.static(path.join(__dirname, 'sauce-site/build')))
+
 // start the test client
 runTestClient();
 
@@ -34,12 +37,6 @@ server.listen(port, () =>
 getSaucinator(io, () => console.log('connected to socket')).then((socket) => {
   app.use(getRouter(socket));
 });
-
-// configure routes
-app.get('/', (req, res) => {
-  res.status(404).send();
-});
-
 
 // false status means not accepting
 let status = false;

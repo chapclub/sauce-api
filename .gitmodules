@@ -1,0 +1,3 @@
+[submodule "sauce-site"]
+	path = sauce-site
+	url = git@github.com:chapclub/sauce-site.git
