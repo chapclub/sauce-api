@@ -12,14 +12,12 @@
 		"clean": "noderize-scripts clean"
 	},
 	"devDependencies": {
-		"@noderize/scripts": "^0.4.6"
+		"@noderize/scripts": "^0.4.6",
+		"socket.io-client": "^2.1.0"
 	},
 	"dependencies": {
 		"@noderize/runtime": "^0.4.6",
 		"express": "^4.16.3",
-		"express-jwt": "^5.3.1",
-		"express-jwt-authz": "^1.0.0",
-		"jwks-rsa": "^1.2.1",
 		"socket.io": "^2.0.4"
 	}
 }
