@@ -1,5 +1,6 @@
 // just to create the http server
 import http from 'http';
+import path from 'path';
 
 // the classic og of course
 import express from 'express';
@@ -24,10 +25,10 @@ const server = http.Server(app);
 const io = socketIO(6970);
 
 // serve the frontend
-app.use(express.static(path.join(__dirname, 'sauce-site/build')))
+app.use(express.static(path.join('..', 'sauce-site/build')))
 
 // start the test client
-runTestClient();
+// runTestClient();
 
 // start the server
 server.listen(port, () =>
@@ -36,6 +37,10 @@ server.listen(port, () =>
 // open socket connection to the saucinator
 getSaucinator(io, () => console.log('connected to socket')).then((socket) => {
   app.use(getRouter(socket));
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join('..', 'sauce-site/build/index.html'));
 });
 
 // false status means not accepting
