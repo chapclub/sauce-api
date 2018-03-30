@@ -3,6 +3,7 @@ import http from 'http';
 
 // the classic og of course
 import express from 'express';
+import bodyParser from 'body-parser';
 
 // for the websocket connection to the saucinator
 import socketIO from 'socket.io';
@@ -10,13 +11,20 @@ import socketIO from 'socket.io';
 // get the socket handler utilities
 import { getSaucinator, getRouter } from './socket.handler';
 
+// test client socket
+import { runTestClient } from './test.client';
+
 // get the running port from teh interwebz
 const port = parseInt(process.env.PORT) || 6969;
 
 // literally just pass the things around
 const app = express();
+app.use(bodyParser.json());
 const server = http.Server(app);
-const io = socketIO(server);
+const io = socketIO(6970);
+
+// start the test client
+runTestClient();
 
 // start the server
 server.listen(port, () =>

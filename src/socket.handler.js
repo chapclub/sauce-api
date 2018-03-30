@@ -25,11 +25,11 @@ export const getSaucinator = (io, onConnect) => {
 const makeDrink = (socket, getStatus) => (req, res) => {
   const status = getStatus();
 
-  if (status && status.busy) res.status(403).send('machine busy');
-  if (req.body.drink) socket.emit('make-drink', req.body.drink);
-  else socket.emit('make-drink');
+  if (status && status.busy) return res.status(403).send('machine busy');
+  if (req.body && req.body.drink) socket.emit('make-drink', req.body.drink);
+  else socket.emit('make-drink', {});
 
-  socket.on('make-drink.response', (data) => res.json(data));
+  res.sendStatus(204);
 };
 
 /**
@@ -42,9 +42,9 @@ const makeDrink = (socket, getStatus) => (req, res) => {
  */
 const setDrink = (socket) => (req, res) => {
   if (req.body.drink) socket.emit('set-drink', req.body.drink);
-  else res.status(400).error('No drink provided');
+  else return res.status(400).send('No drink provided');
 
-  socket.on('set-drink.response', (data) => res.json(data));
+  res.sendStatus(204);
 };
 
 /**
@@ -56,14 +56,15 @@ export const getRouter = (socket) => {
 
   // once we receive a status, we need to use it to block requests on busy
   socket.on('status', (data) => {
+    console.log('got a status', data);
     status = data;
   });
 
   router.post('/drink/make', makeDrink(socket, () => ( status )));
   router.post('/drink/set', setDrink(socket));
   router.get('/status', (req, res) => {
-    if (status) res.json(status);
-    else res.status(204).send();
+    if (status) return res.json(status);
+    else return res.status(204).send();
   });
 
   return router;
