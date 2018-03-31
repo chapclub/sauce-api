@@ -5,6 +5,7 @@ import path from 'path';
 // the classic og of course
 import express from 'express';
 import bodyParser from 'body-parser';
+import morgan from 'morgan';
 
 // for the websocket connection to the saucinator
 import socketIO from 'socket.io';
@@ -23,6 +24,9 @@ const app = express();
 app.use(bodyParser.json());
 const server = http.Server(app);
 const io = socketIO(6970);
+
+// set the dev logger
+app.use(morgan('dev'));
 
 // serve the frontend
 app.use(express.static(path.join(__dirname, '..', 'sauce-site', 'build')))
