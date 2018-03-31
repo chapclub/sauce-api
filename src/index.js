@@ -40,7 +40,7 @@ getSaucinator(io, () => console.log('connected to socket')).then((socket) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join('..', 'sauce-site/build/index.html'));
+  res.sendFile(path.join(__dirname, '..', 'sauce-site', 'build', 'index.html'));
 });
 
 // false status means not accepting
