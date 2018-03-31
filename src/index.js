@@ -25,7 +25,7 @@ const server = http.Server(app);
 const io = socketIO(6970);
 
 // serve the frontend
-app.use(express.static(path.join('..', 'sauce-site/build')))
+app.use(express.static(path.join(__dirname, '..', 'sauce-site', 'build')))
 
 // start the test client
 // runTestClient();
